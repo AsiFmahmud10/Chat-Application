@@ -5,85 +5,98 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function Login() {
+  
   const [email, setEmail] = useState("");
-  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const registrationDto = {
-      username,
-      password,
-    };
-
-    // axios
-    //   .post("http://localhost:8082/api/users", registrationDto, {
-    //     withCredentials: true,
-    //   })
-    //   .then((res) => {
-    //     console.log(res.data);
-    //     if (res.data) {
-    //       navigate("/home");
-    //     }
-    //   });
-    navigate("/home");
-  };
-
+  
   const handleLoginByEmail = () => {
     const emailDto = {
       email,
     };
-    // axios
-    //   .post("http://localhost:8082/api/users", emailDto, {
-    //     withCredentials: true,
-    //   })
-    //   .then((res) => {
-    //     console.log(res.data);
-    //     if (res.data) {
-    //       navigate("/home");
-    //     }
-    //   });
+    axios
+      .post("http://localhost:8082/api/users/email", emailDto, {
+        withCredentials: true,
+      })
+      .then((res) => {
+        console.log(["from Login",res.data]);
+        if (res.data) {
+          navigate("/home");
+        }
+      });
 
-      navigate("/home");
+   
   };
 
   return (
-    <div className="flex pt-6 justify-center ">
-      <div className=" w-1/2  ">
-        <form onSubmit={handleSubmit}>
-          <Input
-            type="text"
-            placeholder="Username"
-            onChange={(e) => {
-              setUserName(e.target.value);
-            }}
-            value={username}
-          />
-          <Input
-            type="password"
-            placeholder="Password"
-            onChange={(e) => {
-              setPassword(e.target.value);
-            }}
-            value={password}
-          />
-          <Button type="submit" className="bg-green-500">
-            Submit
-          </Button>
-        </form>
-        <div>
-          <Input
-            type="email"
-            placeholder="email"
-            onChange={(e) => {
-              setEmail(e.target.value);
-            }}
-            value={email}
-          />
-          <Button onClick={handleLoginByEmail}>Log in with email</Button>
+    <div className="
+      flex flex-col 
+      justify-center 
+      items-center 
+      bg-gray-100 
+      min-h-screen 
+    ">
+      <div className="  sm:w-full sm:max-w-md   ">
+      <div className="
+          text-center
+          text-3xl
+          font-semibold
+          tracking-tight
+          text-gray-700 
+          p-7 mb-4
+        "
+        >
+          Sign to your account
         </div>
+        <div className="bg-white rounded-sm sm:rounded-lg p-8 shadow">
+       
+        <label
+              htmlFor="email"
+              className="
+              text-sm
+              font-semibold
+              text-gray-900
+            "
+            >
+              Email
+            </label>
+
+            <Input
+              id="email"
+              className="
+              border-0
+              ring-1
+             ring-gray-200
+              my-2
+              outline-none
+            "
+              type="email"
+              onChange={(e) => {
+                setEmail(e.target.value);
+              }}
+              value={email}
+              placeholder="Email"
+            />
+        
+          <Button
+            type="submit"
+            className="
+          bg-green-500 
+            w-full
+            mx-2
+            font-bold
+            text-sm
+            "
+            onClick={handleLoginByEmail}
+            >
+              log in
+              
+            </Button>
+       
+        </div>
+        
       </div>
     </div>
   );
