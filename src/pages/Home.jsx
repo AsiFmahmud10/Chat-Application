@@ -73,7 +73,7 @@ export default function Home() {
                 }}
               >
                 <div className={" cursor-pointer hover:bg-neutral-100 p-4 flex items-center  " +
-                 ((user.id == receiver.id )? "bg-neutral-100":"")
+                 (receiver && (user.id == receiver.id )&& "bg-neutral-100")
                 }>
                   <div className="mr-3">
                     <CircleUserIcon />

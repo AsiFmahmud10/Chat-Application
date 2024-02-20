@@ -9,6 +9,7 @@ export default function Login() {
   const [password, setPassword] = useState("");
 
   const navigate = useNavigate();
+   
 
   const handleLoginByEmail = () => {
     const emailDto = {
@@ -30,8 +31,13 @@ export default function Login() {
         console.error(err);
         navigate("/login");
       });
-  };
+  }
 
+  const onKeyDown =(e)=>{
+    if(e.key == 'Enter'){
+      handleLoginByEmail()
+    }   
+  }
   return (
     <div
       className="
@@ -67,21 +73,12 @@ export default function Login() {
             Email
           </label>
 
-          <Input
-            id="email"
-            className="
-              border-0
-              ring-1
-             ring-gray-200
-              my-2
-              outline-none
-            "
-            type="email"
+          <Input className="border-0 ring-1 ring-gray-200 my-2 outline-none "
+            id="email" type="email" value={email} placeholder="Email"
             onChange={(e) => {
               setEmail(e.target.value);
             }}
-            value={email}
-            placeholder="Email"
+            onKeyDown={onKeyDown}
           />
           <div className="mt-3">
             <Button
