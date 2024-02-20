@@ -5,13 +5,11 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function Login() {
-  
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const navigate = useNavigate();
 
-  
   const handleLoginByEmail = () => {
     const emailDto = {
       email,
@@ -21,25 +19,32 @@ export default function Login() {
         withCredentials: true,
       })
       .then((res) => {
-        console.log(["from Login",res.data]);
+        console.log(["from Login", res.data]);
         if (res.data) {
           navigate("/home");
+        } else {
+          navigate("/login");
         }
+      })
+      .catch((err) => {
+        console.error(err);
+        navigate("/login");
       });
-
-   
   };
 
   return (
-    <div className="
+    <div
+      className="
       flex flex-col 
       justify-center 
       items-center 
       bg-gray-100 
       min-h-screen 
-    ">
+    "
+    >
       <div className="  sm:w-full sm:max-w-md   ">
-      <div className="
+        <div
+          className="
           text-center
           text-3xl
           font-semibold
@@ -51,52 +56,61 @@ export default function Login() {
           Sign to your account
         </div>
         <div className="bg-white rounded-sm sm:rounded-lg p-8 shadow">
-       
-        <label
-              htmlFor="email"
-              className="
+          <label
+            htmlFor="email"
+            className="
               text-sm
               font-semibold
               text-gray-900
             "
-            >
-              Email
-            </label>
+          >
+            Email
+          </label>
 
-            <Input
-              id="email"
-              className="
+          <Input
+            id="email"
+            className="
               border-0
               ring-1
              ring-gray-200
               my-2
               outline-none
             "
-              type="email"
-              onChange={(e) => {
-                setEmail(e.target.value);
-              }}
-              value={email}
-              placeholder="Email"
-            />
-        
-          <Button
-            type="submit"
-            className="
+            type="email"
+            onChange={(e) => {
+              setEmail(e.target.value);
+            }}
+            value={email}
+            placeholder="Email"
+          />
+          <div className="mt-3">
+            <Button
+              type="submit"
+              className="
           bg-green-500 
-            w-full
+            
             mx-2
             font-bold
             text-sm
+            hover:bg-green-600
             "
-            onClick={handleLoginByEmail}
+              onClick={handleLoginByEmail}
             >
-              log in
-              
+              Sign in
             </Button>
-       
+
+            <Button
+              type="submit"
+              variant="outline"
+              onClick={() => {
+                console.log("err");
+                navigate("/reg");
+              }}
+            >
+              Sign up
+            </Button>
+          </div>
         </div>
-        
       </div>
     </div>
   );

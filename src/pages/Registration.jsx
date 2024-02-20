@@ -17,15 +17,19 @@ export default function Registration() {
       firstname,
       lastname,
     };
-    axios
-      .post("http://localhost:8082/api/users", registrationDto, {
+    axios.post("http://localhost:8082/api/users", registrationDto, {
         withCredentials: true,
       })
       .then((res) => {
-        console.log(res.data);
+        console.log(["registraion done"],res.data);
         if (res.data) {
           navigate("/home");
+        }else{
+          navigate("/reg");
         }
+      }).catch((err)=>{
+         console.error(err)
+         navigate("/reg");   
       });
   };
 
@@ -49,7 +53,7 @@ export default function Registration() {
         >
           Registration
         </div>
-        <div className="bg-white rounded-sm sm:rounded-lg p-8 shadow">
+        <div className="bg-white w-full sm:max-w-md rounded-sm sm:rounded-lg p-8 shadow">
           <form onSubmit={handleSubmit}>
             <label
               htmlFor="email"
@@ -69,6 +73,7 @@ export default function Registration() {
               ring-1
              ring-gray-200
               my-2
+              px-5
               outline-none
             "
               type="email"
@@ -91,11 +96,11 @@ export default function Registration() {
             <Input
               id="FirstName"
               className="
-             border-0
-             ring-1
-           ring-gray-200
-            my-2
-             outline-none
+              border-0
+              ring-1
+            ring-gray-200
+              my-2
+              outline-none
              
            "
               type="text"
@@ -136,18 +141,27 @@ export default function Registration() {
               className="
              bg-green-500 
               w-full
-             mx-2
-             font-bold
+              mx-2
+              font-bold
             "
             >
               Submit
             </Button>
           </form>
+          
+          <div className="flex justify-center items-center">
+            <span className="w-full border border-gray-100"></span>
+            <div className="text-sm w-full text-gray-400">Already registerd?</div>
+            <span className="w-full border border-gray-100"></span>
+          </div>
+          <div className="flex text-muted-foreground justify-end">
+            
+              <Button variant="outline" onClick={()=>{navigate("/login")}}>Login</Button>
+          </div>
+          
         </div>
 
-        <div>
-          <Link to={"/login"}>Log in</Link>
-        </div>
+       
       </div>
     </div>
   );
