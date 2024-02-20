@@ -6,7 +6,7 @@ import { useStompClient } from "react-stomp-hooks";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 
-export default function ChatView({ receiver, user, notify }) {
+export default function Chat({ receiver, user, notify }) {
   const [msg, setMsg] = useState("");
   const [chat, setChat] = useState(null);
   const stompClient = useStompClient();
@@ -76,7 +76,7 @@ export default function ChatView({ receiver, user, notify }) {
 
   useEffect(() => {
     updateChat(true);
-  }, [receiver]);
+  }, [receiver, notify]);
 
   return (
     <div className=" bg-white  rounded-md shadow-md p-6 lg:mx-28">
