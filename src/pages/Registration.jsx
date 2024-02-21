@@ -3,11 +3,13 @@ import { Input } from "@/components/ui/input";
 import axios from "axios";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useStompClient } from "react-stomp-hooks";
 
 export default function Registration() {
   const [email, setEmail] = useState("");
   const [firstname, setFirstname] = useState("");
   const [lastname,  setLastname] = useState("");
+  const stompClient = useStompClient()
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
@@ -22,6 +24,12 @@ export default function Registration() {
       })
       .then((res) => {
         console.log(["registraion done"],res.data);
+        if(stompClient){
+          stompClient.publish({
+            destination: `/app/notify-newUser`,
+            body: "hello",
+          });
+        }
         if (res.data) {
           navigate("/home");
         }else{

@@ -6,16 +6,19 @@ import { useStompClient } from "react-stomp-hooks";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 
-export default function Chat({ receiver, user, notify }) {
+export default function Chat({ receiver, user, fetchChat }) {
   const [msg, setMsg] = useState("");
   const [chat, setChat] = useState(null);
   const stompClient = useStompClient();
   const scrollRef = useRef(null);
-  
-  //send signal 
+
+  //send signal
   const send = () => {
     if (stompClient) {
-      stompClient.publish({ destination: "/app/notify", body: "hello" });
+      stompClient.publish({
+        destination: `/app/notify-${user.id+"-"+receiver.id}`,
+        body: "hello",
+      });
     } else {
       console.error(["stompClient"], stompClient);
     }
@@ -71,16 +74,17 @@ export default function Chat({ receiver, user, notify }) {
         console.error(err);
       });
   };
+  
   useEffect(() => {
     scrollRef.current.scrollIntoView({ behavior: "smooth" });
-  }, [chat, notify]);
+  }, [chat, fetchChat]);
 
   useEffect(() => {
     updateChat(true);
-  }, [receiver, notify]);
+  }, [receiver, fetchChat]);
 
   return (
-    <div className=" bg-white    rounded-md shadow-md p-6 lg:mx-28">
+    <div className=" bg-white  rounded-md shadow-md p-6 lg:mx-28">
       <div className=" font-bold text-lg  text-blue-950 flex justify-between px-3 drop-shadow-md ">
         <div className="hidden sm:block">Messages</div>
         <div className=" block"> {receiver.firstname}</div>

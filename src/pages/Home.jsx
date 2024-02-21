@@ -4,7 +4,7 @@ import axios from "axios";
 import { Menu, PlusCircle } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useSubscription } from "react-stomp-hooks";
+import { useStompClient, useSubscription } from "react-stomp-hooks";
 
 export default function Home() {
   const nevigate = useNavigate();
@@ -13,11 +13,33 @@ export default function Home() {
   const [user, setUser] = useState(null);
   const [receiver, setReceiver] = useState(null);
   const [notify, setNotify] = useState(false);
+  const [fetchChat, setFetchChat] = useState(false);
+
+  const stompClient = useStompClient();
 
   useSubscription("/topic/sub", (msg) => {
-    setNotify(!notify);
+    if (msg.bode == "newUser") {
+      setNotify(!notify);
+      console.warn(notify);
+    } else {
+      const [senderUserId, senderRecieverId] = msg.body.split("-");
+      console.log([senderUserId, senderRecieverId]);
+      setNotify(!notify);
+      console.warn(notify);
+
+      if (
+        user &&
+        receiver &&
+        receiver.id == senderUserId &&
+        user.id == senderRecieverId
+      ) {
+        console.log([receiver.id.toString(), msg.body]);
+        setFetchChat(!fetchChat);
+      }
+    }
   });
 
+  // fetch other users except the user using
   const getUsers = () => {
     axios
       .get("http://localhost:8082/api/users", { withCredentials: true })
@@ -26,6 +48,7 @@ export default function Home() {
         if (res.data) {
           setUserList(res.data.contacts);
           setUser(res.data.user);
+          console.warn("users update");
         } else if (res.data.user == null) {
           nevigate("/login");
         }
@@ -39,11 +62,25 @@ export default function Home() {
     getUsers();
   }, [notify]);
 
+  useEffect(() => {
+    if (stompClient) {
+      stompClient.publish({
+        destination: `/app/notify-newuser`,
+        body: "hello",
+      });
+    } else {
+      console.error(["stompClient"], stompClient);
+    }
+  }, []);
+
   return (
     <>
       <div className=" overflow-hidden  w-full min-h-screen h-full  flex  ">
-        <div className=" flex bg-red-500 justify-end"
-          onClick={() =>{ setToogle(!toogle)}}
+        <div
+          className=" flex bg-red-500 justify-end"
+          onClick={() => {
+            setToogle(!toogle);
+          }}
         >
           {toogle ? <PlusCircle /> : <Menu />}
         </div>
@@ -58,7 +95,12 @@ export default function Home() {
         />
 
         {/*  Chats  */}
-        <ChatViewContainer receiver={receiver} user={user} notify={notify} toogle={toogle} />
+        <ChatViewContainer
+          receiver={receiver}
+          user={user}
+          toogle={toogle}
+          fetchChat={fetchChat}
+        />
       </div>
     </>
   );

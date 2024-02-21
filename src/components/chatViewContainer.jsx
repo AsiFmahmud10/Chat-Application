@@ -1,6 +1,6 @@
 import Chat from "./chat";
 
-export default function ChatViewContainer({ user, receiver, notify,toogle }) {
+export default function ChatViewContainer({ user, receiver, fetchChat,toogle }) {
   
     return (
     <div className={"   p-6  sm:p-10  md:block  w-full bg-gray-100" + ( toogle && " hidden ")}>
@@ -10,7 +10,7 @@ export default function ChatViewContainer({ user, receiver, notify,toogle }) {
             Select a chat or start a new Conversation
           </h1>
         )}
-        {receiver && <Chat user={user} notify={notify} receiver={receiver} />}
+        {receiver && <Chat user={user} fetchChat={fetchChat} receiver={receiver} />}
       </div>
     </div>
   );
