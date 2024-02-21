@@ -17,12 +17,14 @@ export default function Home() {
   const [fetchChat, setFetchChat] = useState(false);
 
   const stompClient = useStompClient();
-
+  // listining... when msg come from broker callback will call  
   useSubscription("/topic/sub", (msg) => {
+    // show new user 
     if (msg.bode == "newUser") {
       setNotify(!notify);
       console.warn(notify);
     } else {
+      
       const [senderUserId, senderRecieverId] = msg.body.split("-");
       console.log([senderUserId, senderRecieverId]);
       setNotify(!notify);

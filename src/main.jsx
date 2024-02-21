@@ -7,7 +7,7 @@ import Registration from "./pages/Registration";
 import { StompSessionProvider } from "react-stomp-hooks";
 import Home from "./pages/Home";
 
-
+// routing
 const router = createBrowserRouter([
   {
     path: "/reg",
@@ -25,7 +25,11 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-     <StompSessionProvider onConnect={()=>{console.log("hello")}} url={"http://localhost:8082/ws"}>
+    {/* connect to websocket */}
+     <StompSessionProvider 
+        onConnect={()=>{console.log("hello")}} 
+        url={"http://localhost:8082/ws"}
+     >
         <RouterProvider router={router} /> 
      </StompSessionProvider>
     
