@@ -3,7 +3,7 @@ import { CircleUserIcon } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "./ui/button";
 
-export default function Slidebar({
+export default function Sidebar({
   user,
   userList,
   receiver,
@@ -16,14 +16,14 @@ export default function Slidebar({
     axios
       .get("http://localhost:8082/api/users/logout", { withCredentials: true })
       .then((res) => {
-        navigate("/login");
+        navigate("/");
       });
   };
 
   return (
     <div
       className={
-        " overflow-y-scroll min-h-96 p-10   md:max-w-sm w-full " +
+        " overflow-y-scroll max-h-screen p-10   md:max-w-sm w-full " +
         (toogle ? " block " : "hidden")
       }
     >

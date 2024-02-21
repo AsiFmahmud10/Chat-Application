@@ -6,10 +6,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function Login() {
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
   const navigate = useNavigate();
-   
 
   const handleLoginByEmail = () => {
     const emailDto = {
@@ -21,23 +18,23 @@ export default function Login() {
       })
       .then((res) => {
         console.log(["from Login", res.data]);
-        if (res.data) {
+        if (res.data != null) {
           navigate("/home");
-        } else {
-          navigate("/login");
+        } else if (res.data == null) {
+          navigate("/reg");
         }
       })
       .catch((err) => {
         console.error(err);
-        navigate("/login");
+        navigate("/");
       });
-  }
+  };
 
-  const onKeyDown =(e)=>{
-    if(e.key == 'Enter'){
-      handleLoginByEmail()
-    }   
-  }
+  const onKeyDown = (e) => {
+    if (e.key == "Enter") {
+      handleLoginByEmail();
+    }
+  };
   return (
     <div
       className="
@@ -73,8 +70,12 @@ export default function Login() {
             Email
           </label>
 
-          <Input className="border-0 ring-1 ring-gray-200 my-2 outline-none "
-            id="email" type="email" value={email} placeholder="Email"
+          <Input
+            className="border-0 ring-1 ring-gray-200 my-2 outline-none "
+            id="email"
+            type="email"
+            value={email}
+            placeholder="Email"
             onChange={(e) => {
               setEmail(e.target.value);
             }}

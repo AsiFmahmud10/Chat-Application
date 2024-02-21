@@ -1,4 +1,5 @@
 import ChatViewContainer from "@/components/chatViewContainer";
+import Sidebar from "@/components/slidebar";
 import Slidebar from "@/components/slidebar";
 import axios from "axios";
 import { Menu, PlusCircle } from "lucide-react";
@@ -50,11 +51,11 @@ export default function Home() {
           setUser(res.data.user);
           console.warn("users update");
         } else if (res.data.user == null) {
-          nevigate("/login");
+          nevigate("/");
         }
       })
       .catch((err) => {
-        nevigate("/login");
+        nevigate("/");
       });
   };
 
@@ -86,7 +87,7 @@ export default function Home() {
         </div>
 
         {/* Sidebar */}
-        <Slidebar
+        <Sidebar
           user={user}
           receiver={receiver}
           userList={userList}

@@ -14,6 +14,7 @@ export default function Registration() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    
     const registrationDto = {
       email,
       firstname,
@@ -83,7 +84,8 @@ export default function Registration() {
               my-2
               px-5
               outline-none
-            "
+            " 
+              required
               type="email"
               onChange={(e) => {
                 setEmail(e.target.value);
@@ -110,7 +112,10 @@ export default function Registration() {
               my-2
               outline-none
              
-           "
+           "  
+              minLength={3}
+              maxLength={15}
+              required
               type="text"
               placeholder="First Name"
               onChange={(e) => {
@@ -137,6 +142,9 @@ export default function Registration() {
                 my-4
                outline-none
              "
+              minLength={3}
+              maxLength={15}
+              required
               type="text"
               placeholder="Last Name"
               onChange={(e) => {
@@ -164,7 +172,7 @@ export default function Registration() {
           </div>
           <div className="flex text-muted-foreground justify-end">
             
-              <Button variant="outline" onClick={()=>{navigate("/login")}}>Login</Button>
+              <Button variant="outline" onClick={()=>{navigate("/")}}>Login</Button>
           </div>
           
         </div>
