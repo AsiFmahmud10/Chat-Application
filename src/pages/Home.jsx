@@ -58,7 +58,7 @@ export default function Home() {
         />
 
         {/*  Chats  */}
-        <ChatViewContainer receiver={receiver} user={user} notify={notify} />
+        <ChatViewContainer receiver={receiver} user={user} notify={notify} toogle={toogle} />
       </div>
     </>
   );

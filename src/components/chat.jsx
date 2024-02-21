@@ -11,7 +11,8 @@ export default function Chat({ receiver, user, notify }) {
   const [chat, setChat] = useState(null);
   const stompClient = useStompClient();
   const scrollRef = useRef(null);
-
+  
+  //send signal 
   const send = () => {
     if (stompClient) {
       stompClient.publish({ destination: "/app/notify", body: "hello" });
@@ -79,10 +80,10 @@ export default function Chat({ receiver, user, notify }) {
   }, [receiver, notify]);
 
   return (
-    <div className=" bg-white  rounded-md shadow-md p-6 lg:mx-28">
+    <div className=" bg-white    rounded-md shadow-md p-6 lg:mx-28">
       <div className=" font-bold text-lg  text-blue-950 flex justify-between px-3 drop-shadow-md ">
         <div className="hidden sm:block">Messages</div>
-        <div className="hidden md:block"> name : {receiver.firstname}</div>
+        <div className=" block"> {receiver.firstname}</div>
       </div>
       <div className="mt-3 border-2 border-gray-300  " />
 
@@ -101,17 +102,17 @@ export default function Chat({ receiver, user, notify }) {
               >
                 <div
                   className={
-                    ` group rounded-lg w-max px-4 py-1 text-sm font-semibold  ` +
+                    ` group rounded-lg  text-left  break-all w-max px-4  max-w-[112px]  md:max-w-sm py-1 text-sm font-semibold  ` +
                     (msg.senderId == user.id
-                      ? "  bg-neutral-100 text-end "
-                      : "text-white bg-blue-300 text-end")
+                      ? " bg-blue-300 text-white  text-end "
+                      : " bg-neutral-100  text-end")
                   }
                 >
                   <div className=" flex gap-1 items-center ">
-                    {msg.content}
+                    <div>{msg.content}</div>
                     <div className="">
                       <Trash
-                        className=" cursor-pointer hidden h-3 group-hover:block"
+                        className=" cursor-pointer h-3 "
                         onClick={() => {
                           removeMessage(msg.id);
                         }}

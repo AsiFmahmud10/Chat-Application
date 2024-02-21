@@ -23,7 +23,7 @@ export default function Slidebar({
   return (
     <div
       className={
-        " overflow-y-scroll min-h-96  sm:p-10 s  max-w-sm w-full " +
+        " overflow-y-scroll min-h-96 p-10   md:max-w-sm w-full " +
         (toogle ? " block " : "hidden")
       }
     >

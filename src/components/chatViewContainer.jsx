@@ -1,9 +1,9 @@
 import Chat from "./chat";
 
-export default function ChatViewContainer({ user, receiver, notify }) {
+export default function ChatViewContainer({ user, receiver, notify,toogle }) {
   
     return (
-    <div className=" p-6  sm:p-10  sm:block  w-full bg-gray-100">
+    <div className={"   p-6  sm:p-10  md:block  w-full bg-gray-100" + ( toogle && " hidden ")}>
       <div className=" h-full  w-full">
         {!receiver && (
           <h1 className=" text-gray-500 font-semibold text-center">
