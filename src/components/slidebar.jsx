@@ -1,6 +1,25 @@
+import axios from "axios";
 import { CircleUserIcon } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { Button } from "./ui/button";
 
-export default function Slidebar({ user, userList, receiver, toogle,setReceiver }) {
+export default function Slidebar({
+  user,
+  userList,
+  receiver,
+  toogle,
+  setReceiver,
+}) {
+  const navigate = useNavigate();
+
+  const handleSignout = () => {
+    axios
+      .get("http://localhost:8082/api/users/logout", { withCredentials: true })
+      .then((res) => {
+        navigate("/login");
+      });
+  };
+
   return (
     <div
       className={
@@ -11,7 +30,18 @@ export default function Slidebar({ user, userList, receiver, toogle,setReceiver 
       <div className=" rounded-md p-6 font-semibold text-xl  shadow-md shadow-gray-200 ">
         <div className="  items-center text-sm  font-semibold ">
           <div className="font-bold text-lg mr-2">Welcome</div>
-          <div className="text-end">{user && user.firstname}</div>
+          <div className="flex justify-between items-center">
+            <div className="text-end">{user && user.firstname}</div>
+            <div>
+              <Button
+                variant="outline"
+                className=" hover:text-white shadow-md hover:bg-red-500 text-sm font-semibold"
+                onClick={handleSignout}
+              >
+                Sign out
+              </Button>
+            </div>
+          </div>
         </div>
       </div>
 
