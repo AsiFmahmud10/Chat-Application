@@ -12,7 +12,7 @@ export default function Chat({ receiver, user, fetchChat }) {
   const stompClient = useStompClient();
   const scrollRef = useRef(null);
 
-  console.log(["chat",fetchChat]);
+  console.log(["chat", fetchChat]);
 
   useEffect(() => {
     console.warn(["fetching chat", fetchChat]);
@@ -87,15 +87,16 @@ export default function Chat({ receiver, user, fetchChat }) {
   }, [chat, fetchChat]);
 
   return (
-    <div className=" ">
-      <div className=" bg-white border border-gray-200   lg:mx-28">
+    <div className="  ">
+      
+      <div className=" bg-white border  border-gray-200   lg:mx-28">
         <div className=" p-4  bg-blue-300 text-white font-bold text-lg flex justify-between  ">
           <div className="">Chat</div>
           <div className=" block"> {receiver.firstname}</div>
         </div>
 
         {/* chat view */}
-        <div className="h-[380px] p-4 border overflow-y-auto border-gray-200  bg-white mb-2 ">
+        <div className=" h-[660px]  sm:h-[380px] p-4 border overflow-y-auto border-gray-200  bg-white mb-2 ">
           <div className="   ">
             {chat &&
               chat.map((msg) => (
@@ -137,7 +138,7 @@ export default function Chat({ receiver, user, fetchChat }) {
 
         {/* Sending Message */}
 
-        <div className="flex px-4  py-2 gap-1 max-w-md items-center">
+        <div className="flex px-4 border-0  py-2 gap-1 max-w-md items-center">
           <Input
             type="text"
             onChange={(e) => {

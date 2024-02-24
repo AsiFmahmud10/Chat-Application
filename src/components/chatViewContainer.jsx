@@ -13,7 +13,7 @@ export default function ChatViewContainer({
   return (
     <div
       className={
-        " p-2  py-12 sm:block   w-full bg-gray-100" +
+        " p-2  sm:py-12 sm:block   w-full bg-gray-100" +
         (toogle && " hidden ")
       }
     >
