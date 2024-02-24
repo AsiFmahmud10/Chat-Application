@@ -23,30 +23,36 @@ export default function Sidebar({
   return (
     <div
       className={
-        " overflow-y-scroll max-h-screen p-10   md:max-w-sm w-full " +
+        " overflow-y-scroll max-h-screen py-2 px-8 brder sm:px-2   sm:max-w-[260px] w-full " +
         (toogle ? " block " : "hidden")
       }
     >
-      <div className=" rounded-md p-6 font-semibold text-xl  shadow-md shadow-gray-200 ">
-        <div className="  items-center text-sm  font-semibold ">
-          <div className="font-bold text-lg mr-2">Welcome</div>
-          <div className="flex justify-between items-center">
-            <div className="text-end">{user && user.firstname}</div>
-            <div>
-              <Button
-                variant="outline"
-                className=" hover:text-white shadow-md hover:bg-red-500 text-sm font-semibold"
-                onClick={handleSignout}
-              >
-                Sign out
-              </Button>
+      <div className=" rounded-md p-3 py-6 my-3 font-semibold text-xl border border-gray-200  shadow-md shadow-gray-200 ">
+        <div className=" px-6 sm:px-1  items-center text-sm  font-semibold ">
+          <div className="flex  justify-between">
+            <div className="  sm:block font-bold text-blue-800 text-lg mr-2">
+              Welcome
             </div>
+            <Button
+              variant="outline"
+              className=" hover:text-white text-red-500 shadow-md hover:bg-red-500 text-sm font-semibold w-[70px]  "
+              onClick={handleSignout}
+            >
+              Sign out
+            </Button>
+          </div>
+
+          <div className="flex justify-between items-center">
+            <div className="text-end text-blue-950 text-base ">
+              {user && user.firstname}
+            </div>
+            <div></div>
           </div>
         </div>
       </div>
 
       {/* Print Other Members */}
-      <div>
+      <div className=" h-screen border border-gray-100  rounded-lg  shadow-md">
         {userList.map((user, index) => (
           <div
             key={user.id}
@@ -63,8 +69,8 @@ export default function Sidebar({
               <div className="mr-3">
                 <CircleUserIcon />
               </div>
-              <div className=" text-gray-900 text-lg font-medium">
-                {user.firstname}
+              <div className=" text-blue-900 text-lg font-semibold">
+                {user.firstname} {user.lastname}
               </div>
             </div>
             <div className="border-t-2 border-gray-100 " />

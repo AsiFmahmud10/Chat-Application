@@ -16,7 +16,7 @@ export default function Chat({ receiver, user, fetchChat }) {
   const send = () => {
     if (stompClient) {
       stompClient.publish({
-        destination: `/app/notify-${user.id+"-"+receiver.id}`,
+        destination: `/app/notify-${user.id + "-" + receiver.id}`,
         body: "hello",
       });
     } else {
@@ -74,7 +74,7 @@ export default function Chat({ receiver, user, fetchChat }) {
         console.error(err);
       });
   };
-  
+
   useEffect(() => {
     scrollRef.current.scrollIntoView({ behavior: "smooth" });
   }, [chat, fetchChat]);
@@ -84,70 +84,73 @@ export default function Chat({ receiver, user, fetchChat }) {
   }, [receiver, fetchChat]);
 
   return (
-    <div className=" bg-white  rounded-md shadow-md p-6 lg:mx-28">
-      <div className=" font-bold text-lg  text-blue-950 flex justify-between px-3 drop-shadow-md ">
-        <div className="hidden sm:block">Messages</div>
+    <div className=" ">
+      
+      <div className=" bg-white border border-gray-200   lg:mx-28">
+      <div className=" p-4  bg-blue-300 text-white font-bold text-lg flex justify-between  ">
+        <div className="">Chat</div>
         <div className=" block"> {receiver.firstname}</div>
       </div>
-      <div className="mt-3 border-2 border-gray-300  " />
-
-      {/* chat view */}
-      <div className="h-[370px]  overflow-y-auto bg-white mb-2 ">
-        {chat &&
-          chat.map((msg) => (
-            <div key={msg.id}>
-              <div
-                className={
-                  `flex m-3  ` +
-                  (msg.senderId == user.id
-                    ? " justify-start  text-start "
-                    : " justify-end text-end")
-                }
-              >
+     
+        {/* chat view */}
+        <div className="h-[380px] p-4 border overflow-y-auto border-gray-200  bg-white mb-2 ">
+          <div className="   ">
+          {chat &&
+            chat.map((msg) => (
+              <div key={msg.id}>
                 <div
                   className={
-                    ` group rounded-lg  text-left  break-all w-max px-4  max-w-[112px]  md:max-w-sm py-1 text-sm font-semibold  ` +
+                    `flex m-3  ` +
                     (msg.senderId == user.id
-                      ? " bg-blue-300 text-white  text-end "
-                      : " bg-neutral-100  text-end")
+                      ? " justify-start  text-start "
+                      : " justify-end text-end")
                   }
                 >
-                  <div className=" flex gap-1 items-center ">
-                    <div>{msg.content}</div>
-                    <div className="">
-                      <Trash
-                        className=" cursor-pointer h-3 "
-                        onClick={() => {
-                          removeMessage(msg.id);
-                        }}
-                      />
+                  <div
+                    className={
+                      ` group rounded-sm  text-left  break-all w-max px-4  max-w-[112px]  md:max-w-sm py-1 text-sm font-semibold  ` +
+                      (msg.senderId == user.id
+                        ? " bg-blue-300 text-white  text-end "
+                        : " bg-green-400 text-white text-end")
+                    }
+                  >
+                    <div className=" flex gap-1 items-center ">
+                      <div>{msg.content}</div>
+                      <div className="">
+                        <Trash
+                          className=" cursor-pointer h-3 "
+                          onClick={() => {
+                            removeMessage(msg.id);
+                          }}
+                        />
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))}
+         </div>
+          <div ref={scrollRef}></div>
+        </div>
 
-        <div ref={scrollRef}></div>
-      </div>
+        {/* Sending Message */}
 
-      {/* Sending Message */}
+        <div className="flex px-4  py-2 gap-1 max-w-md items-center">
+          <Input
+            type="text"
+            onChange={(e) => {
+              setMsg(e.target.value);
+            }}
+            value={msg}
+            placeholder="send"
+            onKeyDown={handleEnter}
+          />
 
-      <div className="flex gap-1 max-w-md items-center">
-        <Input
-          type="text"
-          onChange={(e) => {
-            setMsg(e.target.value);
-          }}
-          value={msg}
-          placeholder="send"
-          onKeyDown={handleEnter}
-        />
-
-        <Button className="my-3  bg-green-400" onClick={sendMsg}>
-          {" "}
-          <ArrowRight />{" "}
-        </Button>
+          <Button className="my-1  bg-blue-300" onClick={sendMsg}>
+            {" "}
+            <ArrowRight />{" "}
+          </Button>
+        </div>
       </div>
     </div>
   );
