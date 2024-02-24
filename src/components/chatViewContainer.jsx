@@ -6,6 +6,10 @@ export default function ChatViewContainer({
   fetchChat,
   toogle,
 }) {
+
+  console.log(["chatContainer",fetchChat]);
+
+
   return (
     <div
       className={

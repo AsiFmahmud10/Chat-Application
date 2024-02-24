@@ -1,6 +1,5 @@
 import ChatViewContainer from "@/components/chatViewContainer";
 import Sidebar from "@/components/slidebar";
-import Slidebar from "@/components/slidebar";
 import axios from "axios";
 import { Menu, PlusCircle } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -17,18 +16,16 @@ export default function Home() {
   const [fetchChat, setFetchChat] = useState(false);
 
   const stompClient = useStompClient();
-  // listining... when msg come from broker callback will call  
+  // listining... when msg come from broker callback will call
   useSubscription("/topic/sub", (msg) => {
-    // show new user 
+    console.warn("i revd Message");
+    // show new user
     if (msg.bode == "newUser") {
       setNotify(!notify);
-      console.warn(notify);
     } else {
-      
       const [senderUserId, senderRecieverId] = msg.body.split("-");
       console.log([senderUserId, senderRecieverId]);
       setNotify(!notify);
-      console.warn(notify);
 
       if (
         user &&
@@ -36,8 +33,9 @@ export default function Home() {
         receiver.id == senderUserId &&
         user.id == senderRecieverId
       ) {
-        console.log([receiver.id.toString(), msg.body]);
+        console.warn([receiver.id.toString(), msg.body, fetchChat]);
         setFetchChat(!fetchChat);
+        console.warn[fetchChat];
       }
     }
   });

@@ -12,6 +12,13 @@ export default function Chat({ receiver, user, fetchChat }) {
   const stompClient = useStompClient();
   const scrollRef = useRef(null);
 
+  console.log(["chat",fetchChat]);
+
+  useEffect(() => {
+    console.warn(["fetching chat", fetchChat]);
+    updateChat();
+  }, [receiver, fetchChat]);
+
   //send signal
   const send = () => {
     if (stompClient) {
@@ -42,7 +49,6 @@ export default function Chat({ receiver, user, fetchChat }) {
   };
 
   const sendMsg = () => {
-    send();
     const msgDto = {
       receiverId: receiver.id,
       msg,
@@ -54,13 +60,14 @@ export default function Chat({ receiver, user, fetchChat }) {
         console.log(["message sent"], res.data);
         updateChat();
         setMsg("");
+        send();
       })
       .catch((err) => {
         console.error(err);
       });
   };
 
-  const updateChat = (scrollOrnot = true) => {
+  const updateChat = () => {
     axios
       .post(
         "http://localhost:8082/message/reciever",
@@ -79,57 +86,52 @@ export default function Chat({ receiver, user, fetchChat }) {
     scrollRef.current.scrollIntoView({ behavior: "smooth" });
   }, [chat, fetchChat]);
 
-  useEffect(() => {
-    updateChat(true);
-  }, [receiver, fetchChat]);
-
   return (
     <div className=" ">
-      
       <div className=" bg-white border border-gray-200   lg:mx-28">
-      <div className=" p-4  bg-blue-300 text-white font-bold text-lg flex justify-between  ">
-        <div className="">Chat</div>
-        <div className=" block"> {receiver.firstname}</div>
-      </div>
-     
+        <div className=" p-4  bg-blue-300 text-white font-bold text-lg flex justify-between  ">
+          <div className="">Chat</div>
+          <div className=" block"> {receiver.firstname}</div>
+        </div>
+
         {/* chat view */}
         <div className="h-[380px] p-4 border overflow-y-auto border-gray-200  bg-white mb-2 ">
           <div className="   ">
-          {chat &&
-            chat.map((msg) => (
-              <div key={msg.id}>
-                <div
-                  className={
-                    `flex m-3  ` +
-                    (msg.senderId == user.id
-                      ? " justify-start  text-start "
-                      : " justify-end text-end")
-                  }
-                >
+            {chat &&
+              chat.map((msg) => (
+                <div key={msg.id}>
                   <div
                     className={
-                      ` group rounded-sm  text-left  break-all w-max px-4  max-w-[112px]  md:max-w-sm py-1 text-sm font-semibold  ` +
+                      `flex m-3  ` +
                       (msg.senderId == user.id
-                        ? " bg-blue-300 text-white  text-end "
-                        : " bg-green-400 text-white text-end")
+                        ? " justify-start  text-start "
+                        : " justify-end text-end")
                     }
                   >
-                    <div className=" flex gap-1 items-center ">
-                      <div>{msg.content}</div>
-                      <div className="">
-                        <Trash
-                          className=" cursor-pointer h-3 "
-                          onClick={() => {
-                            removeMessage(msg.id);
-                          }}
-                        />
+                    <div
+                      className={
+                        ` group rounded-sm  text-left  break-all w-max px-4  max-w-[112px]  md:max-w-sm py-1 text-sm font-semibold  ` +
+                        (msg.senderId == user.id
+                          ? " bg-blue-300 text-white  text-end "
+                          : " bg-green-400 text-white text-end")
+                      }
+                    >
+                      <div className=" flex gap-1 items-center ">
+                        <div>{msg.content}</div>
+                        <div className="">
+                          <Trash
+                            className=" cursor-pointer h-3 "
+                            onClick={() => {
+                              removeMessage(msg.id);
+                            }}
+                          />
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            ))}
-         </div>
+              ))}
+          </div>
           <div ref={scrollRef}></div>
         </div>
 
